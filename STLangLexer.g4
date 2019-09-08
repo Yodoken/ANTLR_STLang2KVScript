@@ -87,7 +87,7 @@ fragment ID_CONTINUE: ID_START | [0-9];
 WS: [ \t]+ -> skip;
 EOL: ('\r'? '\n' | '\r') -> skip;
 SINGLE_LINE_COMMENT: '//' ~[\r\n]* -> skip;
-MULTI_LINE_COMMENT_START: '/*' -> pushMode(COMMENT_MODE);
+MULTI_LINE_COMMENT_START: '/*' -> skip, pushMode(COMMENT_MODE);
 
 fragment A: [Aa];
 fragment B: [Bb];
@@ -118,5 +118,6 @@ fragment Z: [Zz];
 
 // Comment Mode
 mode COMMENT_MODE;
-COMMENTS: .;
-MULTI_LINE_COMMENT_END: '*/' -> popMode;
+COMMENTS: . -> skip;
+MULTI_LINE_COMMENT_START2: '/*' -> skip, pushMode(COMMENT_MODE);
+MULTI_LINE_COMMENT_END: '*/' -> skip, popMode;
