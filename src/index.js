@@ -1,18 +1,14 @@
 var STLangTranspiler = require('./STLangTranspiler').STLangTranspiler;
 
 var text = 
-"A := -1;\n"+
-"A := B + C --D * E / F MOD -G ** H;  //単項マイナスに注意\n"+
-"//E6:論理演算\n"+
-"A := NOT B AND C OR D XOR E & F;\n"+
-"\n"+
-"//E7:比較演算\n"+
-"A := B < C > D <= E >= F;\n"+
-"\n"+
-"//E8:等価比較演算\n"+
-"A := B = C <> D;\n"+
-"//比較・等価比較演算ミックス\n"+
-"A := B = E >= F;\n";
+"//E9:関数\n"+
+"FUNC();\n"+
+"FUNC(B,C);\n"+
+"A := FUNC(B);\n"+
+"A := FUNC(B,C);\n"+
+"A := FUNC(B AND C, D = E);\n"+
+"A := FUNC(B := C);\n"+
+"A := FUNC(B, C => D);\n";
 
 var transpiler = new STLangTranspiler();
 var result = transpiler.execute(text);

@@ -109,7 +109,11 @@ STLangVisitor.prototype.visitAssignmentStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#procedureStatement.
 STLangVisitor.prototype.visitProcedureStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  if (ctx.args) {
+    return [this.visit(ctx.func), "(", this.visit(ctx.args), ")"];
+  } else {
+    return [this.visit(ctx.func), "()"];
+  }
 };
 
 
@@ -193,7 +197,11 @@ STLangVisitor.prototype.visitExpressionNone = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#expressionFunction.
 STLangVisitor.prototype.visitExpressionFunction = function(ctx) {
-  return this.visitChildren(ctx);
+  if (ctx.args) {
+    return [this.visit(ctx.func), "(", this.visit(ctx.args), ")"];
+  } else {
+    return [this.visit(ctx.func), "()"];
+  }
 };
 
 
@@ -253,7 +261,13 @@ STLangVisitor.prototype.visitExpressionEquality = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#parameterList.
 STLangVisitor.prototype.visitParameterList = function(ctx) {
-  return this.visitChildren(ctx);
+  var params = this.visit(ctx.expr);
+  var list = params[0];
+  for (var i = 1; i < params.length; i++) {
+    list.push(", ");
+    list.push(params[i]);
+  }
+  return list;
 };
 
 
@@ -265,13 +279,13 @@ STLangVisitor.prototype.visitParameterExpressionNone = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#prameterExpressionAssignFrom.
 STLangVisitor.prototype.visitPrameterExpressionAssignFrom = function(ctx) {
-  return this.visitChildren(ctx);
+  return [this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs)];
 };
 
 
 // Visit a parse tree produced by STLangParser#prameterExpressionAssignTo.
 STLangVisitor.prototype.visitPrameterExpressionAssignTo = function(ctx) {
-  return this.visitChildren(ctx);
+  return [this.visit(ctx.rhs), " := ", this.visit(ctx.lhs)];
 };
 
 

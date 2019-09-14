@@ -117,8 +117,8 @@ parameterList
 
 parameterExpression
     : expression                                                #parameterExpressionNone
-    | lhs=variable ASSIGN rhs=variable                          #prameterExpressionAssignFrom
-    | lhs=variable OUTREF rhs=variable                          #prameterExpressionAssignTo
+    | lhs=variable op=ASSIGN rhs=variable                       #prameterExpressionAssignFrom
+    | lhs=variable op=OUTREF rhs=variable                       #prameterExpressionAssignTo
     ;
 
 // 定数

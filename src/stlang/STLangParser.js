@@ -2916,6 +2916,7 @@ ParameterExpressionNoneContext.prototype.accept = function(visitor) {
 function PrameterExpressionAssignToContext(parser, ctx) {
 	ParameterExpressionContext.call(this, parser);
     this.lhs = null; // VariableContext;
+    this.op = null; // Token;
     this.rhs = null; // VariableContext;
     ParameterExpressionContext.prototype.copyFrom.call(this, ctx);
     return this;
@@ -2926,10 +2927,6 @@ PrameterExpressionAssignToContext.prototype.constructor = PrameterExpressionAssi
 
 STLangParser.PrameterExpressionAssignToContext = PrameterExpressionAssignToContext;
 
-PrameterExpressionAssignToContext.prototype.OUTREF = function() {
-    return this.getToken(STLangParser.OUTREF, 0);
-};
-
 PrameterExpressionAssignToContext.prototype.variable = function(i) {
     if(i===undefined) {
         i = null;
@@ -2939,6 +2936,10 @@ PrameterExpressionAssignToContext.prototype.variable = function(i) {
     } else {
         return this.getTypedRuleContext(VariableContext,i);
     }
+};
+
+PrameterExpressionAssignToContext.prototype.OUTREF = function() {
+    return this.getToken(STLangParser.OUTREF, 0);
 };
 PrameterExpressionAssignToContext.prototype.accept = function(visitor) {
     if ( visitor instanceof STLangParserVisitor ) {
@@ -2952,6 +2953,7 @@ PrameterExpressionAssignToContext.prototype.accept = function(visitor) {
 function PrameterExpressionAssignFromContext(parser, ctx) {
 	ParameterExpressionContext.call(this, parser);
     this.lhs = null; // VariableContext;
+    this.op = null; // Token;
     this.rhs = null; // VariableContext;
     ParameterExpressionContext.prototype.copyFrom.call(this, ctx);
     return this;
@@ -2962,10 +2964,6 @@ PrameterExpressionAssignFromContext.prototype.constructor = PrameterExpressionAs
 
 STLangParser.PrameterExpressionAssignFromContext = PrameterExpressionAssignFromContext;
 
-PrameterExpressionAssignFromContext.prototype.ASSIGN = function() {
-    return this.getToken(STLangParser.ASSIGN, 0);
-};
-
 PrameterExpressionAssignFromContext.prototype.variable = function(i) {
     if(i===undefined) {
         i = null;
@@ -2975,6 +2973,10 @@ PrameterExpressionAssignFromContext.prototype.variable = function(i) {
     } else {
         return this.getTypedRuleContext(VariableContext,i);
     }
+};
+
+PrameterExpressionAssignFromContext.prototype.ASSIGN = function() {
+    return this.getToken(STLangParser.ASSIGN, 0);
 };
 PrameterExpressionAssignFromContext.prototype.accept = function(visitor) {
     if ( visitor instanceof STLangParserVisitor ) {
@@ -3010,7 +3012,7 @@ STLangParser.prototype.parameterExpression = function() {
             this.state = 236;
             localctx.lhs = this.variable();
             this.state = 237;
-            this.match(STLangParser.ASSIGN);
+            localctx.op = this.match(STLangParser.ASSIGN);
             this.state = 238;
             localctx.rhs = this.variable();
             break;
@@ -3021,7 +3023,7 @@ STLangParser.prototype.parameterExpression = function() {
             this.state = 240;
             localctx.lhs = this.variable();
             this.state = 241;
-            this.match(STLangParser.OUTREF);
+            localctx.op = this.match(STLangParser.OUTREF);
             this.state = 242;
             localctx.rhs = this.variable();
             break;

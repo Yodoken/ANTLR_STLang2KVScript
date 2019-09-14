@@ -130,4 +130,26 @@ describe('ラダー実行テスト', function() {
             );
         });
     });
+    describe('Function', function() {
+        it("E9:関数", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "FUNC();\n"+
+                "FUNC(B,C);\n"+
+                "A := FUNC(B);\n"+ 
+                "A := FUNC(B AND C, D = E);\n"+ 
+                "A := FUNC(B := C);\n"+
+                "A := FUNC(B, C => D);";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "FUNC()\n"+
+                "FUNC(B, C)\n"+
+                "A = FUNC(B)\n"+ 
+                "A = FUNC((B AND C), (D = E))\n"+ 
+                "A = FUNC(B := C)\n"+
+                "A = FUNC(B, D := C)\n"
+           );
+        });
+    });
 });
