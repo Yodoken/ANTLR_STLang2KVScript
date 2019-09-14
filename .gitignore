@@ -1,4 +1,6 @@
 .antlr
 .idea
+.vscode
 STLangLexer.tokens
 node_modules
+bundle.js

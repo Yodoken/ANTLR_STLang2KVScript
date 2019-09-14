@@ -23,9 +23,27 @@ STLangTranspiler.prototype.execute = function(structuredText) {
     var visitor = new STLangVisitor();
 
     tree.accept(visitor);
-    //console.log(tree);
-    return visitor.getResult();
+    result = visitor.getResult();
+    if (result.valid) {
+        return {"valid":true, "text": toString(result.tree)};
+    } else {
+        return {"valid":false, "error": result.error};
+    }
 }
 
+
+function toString(tree) {
+    var text = "";
+    if (Array.isArray(tree)) {
+        for (elem of tree) {
+            text += toString(elem);
+        }
+        return text;
+    } else if (typeof tree　=== 'string') {
+        return elem;
+    } else {
+        return "";
+    }
+};
 
 exports.STLangTranspiler = STLangTranspiler;

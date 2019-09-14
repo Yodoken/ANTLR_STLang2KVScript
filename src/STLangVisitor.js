@@ -27,7 +27,6 @@ STLangVisitor.prototype.getResult = function() {
 // Visit a parse tree produced by STLangParser#structuredText.
 STLangVisitor.prototype.visitStructuredText = function(ctx) {
   var result = this.visitChildren(ctx);
-  console.log(result);
   this.result.tree = result;
   return result;
 };
@@ -278,13 +277,23 @@ STLangVisitor.prototype.visitPrameterExpressionAssignTo = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#constandUnsignedNumber.
 STLangVisitor.prototype.visitConstandUnsignedNumber = function(ctx) {
-  return this.visitChildren(ctx);
+  if (ctx.typ) {
+    var type = this.visit(ctx.typ);
+    return [type, "(", this.visit(ctx.num),")"];
+  } else {
+    return this.visit(ctx.num);
+  }
 };
 
 
 // Visit a parse tree produced by STLangParser#constantSignedNumber.
 STLangVisitor.prototype.visitConstantSignedNumber = function(ctx) {
-  return this.visitChildren(ctx);
+  if (ctx.typ) {
+    var type = this.visit(ctx.typ);
+    return [type, "(", this.visit(ctx.sgn), this.visit(ctx.num),")"];
+  } else {
+    return [this.visit(ctx.sgn), this.visit(ctx.num)];
+  }
 };
 
 
@@ -354,15 +363,13 @@ STLangVisitor.prototype.visitUnsignedIntegerHex = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#unsignedReal.
 STLangVisitor.prototype.visitUnsignedReal = function(ctx) {
-  var token = ctx.getToken(STLangLexer.NUM_REAL, 0);
-  var num = parseFloat(token.symbol.text);
-  return ["#"+num.toString()];
+  return ["#"+ctx.getText()];
 };
 
 
 // Visit a parse tree produced by STLangParser#sign.
 STLangVisitor.prototype.visitSign = function(ctx) {
-  return this.visitChildren(ctx);
+  return [ctx.getText()];
 };
 
 
@@ -374,7 +381,23 @@ STLangVisitor.prototype.visitBool = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#typeOfNumber.
 STLangVisitor.prototype.visitTypeOfNumber = function(ctx) {
-  return this.visitChildren(ctx);
+  var type = ctx.getText();
+  if (type === "INT") {
+    return ["TOS"];
+  } if (type === "UINT") {
+    return ["TOU"];
+  } if (type === "DINT") {
+    return ["TOL"];
+  } if (type === "UDINT") {
+    return ["TOD"];
+  } if (type === "REAL") {
+    return ["TOF"];
+  } if (type === "LREAL") {
+    return ["TODF"];
+  } if (type === "WORD") {
+    return ["TOU"];
+  }
+  throw new Error("Invalid type.");
 };
 
 
