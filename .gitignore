@@ -1,2 +1,4 @@
 .antlr
 .idea
+STLangLexer.tokens
+node_modules

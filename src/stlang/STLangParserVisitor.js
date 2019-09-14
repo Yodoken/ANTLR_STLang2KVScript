@@ -1,4 +1,4 @@
-// Generated from /Users/yodogawa/work/ANTLR/ANTLR_STLang2KVScript/STLangParser.g4 by ANTLR 4.7.2
+// Generated from STLangParser.g4 by ANTLR 4.7.2
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -300,26 +300,26 @@ STLangParserVisitor.prototype.visitUnsignedNumber = function(ctx) {
 };
 
 
-// Visit a parse tree produced by STLangParser#unsignedNumberDec.
-STLangParserVisitor.prototype.visitUnsignedNumberDec = function(ctx) {
+// Visit a parse tree produced by STLangParser#unsignedIntegerDec.
+STLangParserVisitor.prototype.visitUnsignedIntegerDec = function(ctx) {
   return this.visitChildren(ctx);
 };
 
 
-// Visit a parse tree produced by STLangParser#unsignedNumberBin.
-STLangParserVisitor.prototype.visitUnsignedNumberBin = function(ctx) {
+// Visit a parse tree produced by STLangParser#unsignedIntegerBin.
+STLangParserVisitor.prototype.visitUnsignedIntegerBin = function(ctx) {
   return this.visitChildren(ctx);
 };
 
 
-// Visit a parse tree produced by STLangParser#unsignedNumberOct.
-STLangParserVisitor.prototype.visitUnsignedNumberOct = function(ctx) {
+// Visit a parse tree produced by STLangParser#unsignedIntegerOct.
+STLangParserVisitor.prototype.visitUnsignedIntegerOct = function(ctx) {
   return this.visitChildren(ctx);
 };
 
 
-// Visit a parse tree produced by STLangParser#unsignedNumberHex.
-STLangParserVisitor.prototype.visitUnsignedNumberHex = function(ctx) {
+// Visit a parse tree produced by STLangParser#unsignedIntegerHex.
+STLangParserVisitor.prototype.visitUnsignedIntegerHex = function(ctx) {
   return this.visitChildren(ctx);
 };
 

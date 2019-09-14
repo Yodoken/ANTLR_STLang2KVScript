@@ -137,10 +137,10 @@ unsignedNumber
     ;
 
 unsignedInteger
-    : num=NUM_INT_DEC                                           #unsignedNumberDec
-    | num=NUM_INT_BIN                                           #unsignedNumberBin
-    | num=NUM_INT_OCT                                           #unsignedNumberOct
-    | num=NUM_INT_HEX                                           #unsignedNumberHex
+    : num=NUM_INT_DEC                                           #unsignedIntegerDec
+    | num=NUM_INT_BIN                                           #unsignedIntegerBin
+    | num=NUM_INT_OCT                                           #unsignedIntegerOct
+    | num=NUM_INT_HEX                                           #unsignedIntegerHex
     ;
 
 unsignedReal

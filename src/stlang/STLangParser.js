@@ -1,4 +1,4 @@
-// Generated from /Users/yodogawa/work/ANTLR/ANTLR_STLang2KVScript/STLangParser.g4 by ANTLR 4.7.2
+// Generated from STLangParser.g4 by ANTLR 4.7.2
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 var STLangParserVisitor = require('./STLangParserVisitor').STLangParserVisitor;
@@ -7,7 +7,7 @@ var grammarFileName = "STLangParser.g4";
 
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
-    "\u0003N\u0130\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0003O\u0130\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
     "\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f\u0004",
     "\r\t\r\u0004\u000e\t\u000e\u0004\u000f\t\u000f\u0004\u0010\t\u0010\u0004",
@@ -221,8 +221,8 @@ var literalNames = [ null, null, null, null, null, null, null, null, "'+'",
                      null, null, null, null, null, null, null, null, null, 
                      null, null, null, null, null, null, null, null, null, 
                      null, null, null, null, null, null, null, null, null, 
-                     null, null, null, null, null, null, null, "'/*'", null, 
-                     "'*/'" ];
+                     null, null, null, null, null, null, null, null, null, 
+                     null, "'*/'" ];
 
 var symbolicNames = [ null, "NUM_INT_DEC", "NUM_INT_BIN", "NUM_INT_OCT", 
                       "NUM_INT_HEX", "NUM_REAL", "STRING_LITERAL", "WSTRING_LITERAL", 
@@ -237,7 +237,8 @@ var symbolicNames = [ null, "NUM_INT_DEC", "NUM_INT_BIN", "NUM_INT_OCT",
                       "AND", "OR", "XOR", "NOT", "BOOL", "INT", "DINT", 
                       "UINT", "UDINT", "WORD", "DWORD", "REAL", "LREAL", 
                       "STRING", "WSTRING", "IDENTIFIER", "WS", "EOL", "SINGLE_LINE_COMMENT", 
-                      "MULTI_LINE_COMMENT_START", "COMMENTS", "MULTI_LINE_COMMENT_END" ];
+                      "MULTI_LINE_COMMENT_START", "COMMENTS", "MULTI_LINE_COMMENT_START2", 
+                      "MULTI_LINE_COMMENT_END" ];
 
 var ruleNames =  [ "structuredText", "statements", "statement", "assignmentStatement", 
                    "procedureStatement", "forStatement", "whileStatement", 
@@ -342,7 +343,8 @@ STLangParser.EOL = 72;
 STLangParser.SINGLE_LINE_COMMENT = 73;
 STLangParser.MULTI_LINE_COMMENT_START = 74;
 STLangParser.COMMENTS = 75;
-STLangParser.MULTI_LINE_COMMENT_END = 76;
+STLangParser.MULTI_LINE_COMMENT_START2 = 76;
+STLangParser.MULTI_LINE_COMMENT_END = 77;
 
 STLangParser.RULE_structuredText = 0;
 STLangParser.RULE_statements = 1;
@@ -3447,96 +3449,96 @@ UnsignedIntegerContext.prototype.copyFrom = function(ctx) {
 };
 
 
-function UnsignedNumberBinContext(parser, ctx) {
+function UnsignedIntegerHexContext(parser, ctx) {
 	UnsignedIntegerContext.call(this, parser);
     this.num = null; // Token;
     UnsignedIntegerContext.prototype.copyFrom.call(this, ctx);
     return this;
 }
 
-UnsignedNumberBinContext.prototype = Object.create(UnsignedIntegerContext.prototype);
-UnsignedNumberBinContext.prototype.constructor = UnsignedNumberBinContext;
+UnsignedIntegerHexContext.prototype = Object.create(UnsignedIntegerContext.prototype);
+UnsignedIntegerHexContext.prototype.constructor = UnsignedIntegerHexContext;
 
-STLangParser.UnsignedNumberBinContext = UnsignedNumberBinContext;
+STLangParser.UnsignedIntegerHexContext = UnsignedIntegerHexContext;
 
-UnsignedNumberBinContext.prototype.NUM_INT_BIN = function() {
-    return this.getToken(STLangParser.NUM_INT_BIN, 0);
-};
-UnsignedNumberBinContext.prototype.accept = function(visitor) {
-    if ( visitor instanceof STLangParserVisitor ) {
-        return visitor.visitUnsignedNumberBin(this);
-    } else {
-        return visitor.visitChildren(this);
-    }
-};
-
-
-function UnsignedNumberHexContext(parser, ctx) {
-	UnsignedIntegerContext.call(this, parser);
-    this.num = null; // Token;
-    UnsignedIntegerContext.prototype.copyFrom.call(this, ctx);
-    return this;
-}
-
-UnsignedNumberHexContext.prototype = Object.create(UnsignedIntegerContext.prototype);
-UnsignedNumberHexContext.prototype.constructor = UnsignedNumberHexContext;
-
-STLangParser.UnsignedNumberHexContext = UnsignedNumberHexContext;
-
-UnsignedNumberHexContext.prototype.NUM_INT_HEX = function() {
+UnsignedIntegerHexContext.prototype.NUM_INT_HEX = function() {
     return this.getToken(STLangParser.NUM_INT_HEX, 0);
 };
-UnsignedNumberHexContext.prototype.accept = function(visitor) {
+UnsignedIntegerHexContext.prototype.accept = function(visitor) {
     if ( visitor instanceof STLangParserVisitor ) {
-        return visitor.visitUnsignedNumberHex(this);
+        return visitor.visitUnsignedIntegerHex(this);
     } else {
         return visitor.visitChildren(this);
     }
 };
 
 
-function UnsignedNumberOctContext(parser, ctx) {
+function UnsignedIntegerOctContext(parser, ctx) {
 	UnsignedIntegerContext.call(this, parser);
     this.num = null; // Token;
     UnsignedIntegerContext.prototype.copyFrom.call(this, ctx);
     return this;
 }
 
-UnsignedNumberOctContext.prototype = Object.create(UnsignedIntegerContext.prototype);
-UnsignedNumberOctContext.prototype.constructor = UnsignedNumberOctContext;
+UnsignedIntegerOctContext.prototype = Object.create(UnsignedIntegerContext.prototype);
+UnsignedIntegerOctContext.prototype.constructor = UnsignedIntegerOctContext;
 
-STLangParser.UnsignedNumberOctContext = UnsignedNumberOctContext;
+STLangParser.UnsignedIntegerOctContext = UnsignedIntegerOctContext;
 
-UnsignedNumberOctContext.prototype.NUM_INT_OCT = function() {
+UnsignedIntegerOctContext.prototype.NUM_INT_OCT = function() {
     return this.getToken(STLangParser.NUM_INT_OCT, 0);
 };
-UnsignedNumberOctContext.prototype.accept = function(visitor) {
+UnsignedIntegerOctContext.prototype.accept = function(visitor) {
     if ( visitor instanceof STLangParserVisitor ) {
-        return visitor.visitUnsignedNumberOct(this);
+        return visitor.visitUnsignedIntegerOct(this);
     } else {
         return visitor.visitChildren(this);
     }
 };
 
 
-function UnsignedNumberDecContext(parser, ctx) {
+function UnsignedIntegerDecContext(parser, ctx) {
 	UnsignedIntegerContext.call(this, parser);
     this.num = null; // Token;
     UnsignedIntegerContext.prototype.copyFrom.call(this, ctx);
     return this;
 }
 
-UnsignedNumberDecContext.prototype = Object.create(UnsignedIntegerContext.prototype);
-UnsignedNumberDecContext.prototype.constructor = UnsignedNumberDecContext;
+UnsignedIntegerDecContext.prototype = Object.create(UnsignedIntegerContext.prototype);
+UnsignedIntegerDecContext.prototype.constructor = UnsignedIntegerDecContext;
 
-STLangParser.UnsignedNumberDecContext = UnsignedNumberDecContext;
+STLangParser.UnsignedIntegerDecContext = UnsignedIntegerDecContext;
 
-UnsignedNumberDecContext.prototype.NUM_INT_DEC = function() {
+UnsignedIntegerDecContext.prototype.NUM_INT_DEC = function() {
     return this.getToken(STLangParser.NUM_INT_DEC, 0);
 };
-UnsignedNumberDecContext.prototype.accept = function(visitor) {
+UnsignedIntegerDecContext.prototype.accept = function(visitor) {
     if ( visitor instanceof STLangParserVisitor ) {
-        return visitor.visitUnsignedNumberDec(this);
+        return visitor.visitUnsignedIntegerDec(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
+function UnsignedIntegerBinContext(parser, ctx) {
+	UnsignedIntegerContext.call(this, parser);
+    this.num = null; // Token;
+    UnsignedIntegerContext.prototype.copyFrom.call(this, ctx);
+    return this;
+}
+
+UnsignedIntegerBinContext.prototype = Object.create(UnsignedIntegerContext.prototype);
+UnsignedIntegerBinContext.prototype.constructor = UnsignedIntegerBinContext;
+
+STLangParser.UnsignedIntegerBinContext = UnsignedIntegerBinContext;
+
+UnsignedIntegerBinContext.prototype.NUM_INT_BIN = function() {
+    return this.getToken(STLangParser.NUM_INT_BIN, 0);
+};
+UnsignedIntegerBinContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof STLangParserVisitor ) {
+        return visitor.visitUnsignedIntegerBin(this);
     } else {
         return visitor.visitChildren(this);
     }
@@ -3555,25 +3557,25 @@ STLangParser.prototype.unsignedInteger = function() {
         this._errHandler.sync(this);
         switch(this._input.LA(1)) {
         case STLangParser.NUM_INT_DEC:
-            localctx = new UnsignedNumberDecContext(this, localctx);
+            localctx = new UnsignedIntegerDecContext(this, localctx);
             this.enterOuterAlt(localctx, 1);
             this.state = 277;
             localctx.num = this.match(STLangParser.NUM_INT_DEC);
             break;
         case STLangParser.NUM_INT_BIN:
-            localctx = new UnsignedNumberBinContext(this, localctx);
+            localctx = new UnsignedIntegerBinContext(this, localctx);
             this.enterOuterAlt(localctx, 2);
             this.state = 278;
             localctx.num = this.match(STLangParser.NUM_INT_BIN);
             break;
         case STLangParser.NUM_INT_OCT:
-            localctx = new UnsignedNumberOctContext(this, localctx);
+            localctx = new UnsignedIntegerOctContext(this, localctx);
             this.enterOuterAlt(localctx, 3);
             this.state = 279;
             localctx.num = this.match(STLangParser.NUM_INT_OCT);
             break;
         case STLangParser.NUM_INT_HEX:
-            localctx = new UnsignedNumberHexContext(this, localctx);
+            localctx = new UnsignedIntegerHexContext(this, localctx);
             this.enterOuterAlt(localctx, 4);
             this.state = 280;
             localctx.num = this.match(STLangParser.NUM_INT_HEX);
