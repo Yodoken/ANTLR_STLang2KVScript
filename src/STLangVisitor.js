@@ -354,7 +354,9 @@ STLangVisitor.prototype.visitUnsignedIntegerHex = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#unsignedReal.
 STLangVisitor.prototype.visitUnsignedReal = function(ctx) {
-  return this.visitChildren(ctx);
+  var token = ctx.getToken(STLangLexer.NUM_REAL, 0);
+  var num = parseFloat(token.symbol.text);
+  return ["#"+num.toString()];
 };
 
 
@@ -390,13 +392,17 @@ STLangVisitor.prototype.visitVariable = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#stringMultiByte.
 STLangVisitor.prototype.visitStringMultiByte = function(ctx) {
-  return this.visitChildren(ctx);
+  var token = ctx.getToken(STLangLexer.STRING_LITERAL, 0);
+  var str = token.symbol.text;
+  return ["\"", str.substr(1,str.length-2), "\""];
 };
 
 
 // Visit a parse tree produced by STLangParser#stringWide.
 STLangVisitor.prototype.visitStringWide = function(ctx) {
-  return this.visitChildren(ctx);
+  var token = ctx.getToken(STLangLexer.WSTRING_LITERAL, 0);
+  var str = token.symbol.text;
+  return [str];
 };
 
 

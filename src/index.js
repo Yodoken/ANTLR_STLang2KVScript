@@ -1,7 +1,13 @@
 var STLangTranspiler = require('./STLangTranspiler').STLangTranspiler;
 
 var text = 
-"A := 10;A := 2#0001_1100;A := 8#77;A := 16#ff;";
+"A := 10;\n"+
+"A := 1.2;\n"+
+"A := 'abc';\n"+
+"A := \"あ\";\n"+
+"A := 2#0001_1100;\n"+
+"A := 8#77;\n"+
+"A := 16#ff;";
 
 var trnspiler = new STLangTranspiler();
 var result = trnspiler.execute(text);
