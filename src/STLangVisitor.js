@@ -181,7 +181,7 @@ STLangVisitor.prototype.visitReturnStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#expressionLogicalOR.
 STLangVisitor.prototype.visitExpressionLogicalOR = function(ctx) {
-  return [this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs)];
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 

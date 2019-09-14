@@ -1,6 +1,7 @@
 var STLangTranspiler = require('./STLangTranspiler').STLangTranspiler;
 
 var text = 
+"A := -1;\n"+
 "A := B + C --D * E / F MOD -G ** H;  //単項マイナスに注意\n"+
 "//E6:論理演算\n"+
 "A := NOT B AND C OR D XOR E & F;\n"+
