@@ -149,7 +149,94 @@ describe('ラダー実行テスト', function() {
                 "A = FUNC((B AND C), (D = E))\n"+ 
                 "A = FUNC(B := C)\n"+
                 "A = FUNC(B, D := C)\n"
-           );
+            );
+        });
+    });
+    describe('Repeat statement', function() {
+        it("S2:繰り返し", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "REPEAT\n"+
+                "  REPEAT\n"+
+                "    EXIT;   //ループの脱出(誤解しやすいが、いわゆるBREAK相当)。なお、第2版のST言語にCONTINUEはない(おそらく)。\n"+
+                "  UNTIL A < 100 END_REPEAT;\n"+
+                "UNTIL B AND C END_REPEAT;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "DO\n"+
+                "\tDO\n"+
+                "\t\tBREAK\n"+
+                "\tUNTIL (A < #100)\n"+
+                "UNTIL (B AND C)\n"
+            );
+        });
+        it("S3:選択", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "CASE A OF\n"+
+                "B: C:=D;\n"+
+                "ELSE E:=F;\n"+
+                "END_CASE;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "SELECT CASE A\n"+
+                "\tCASE B\n"+
+                "\t\tC = D\n"+
+                "\tCASE ELSE\n"+
+                "\t\tE = F\n"+
+                "END SELECT\n"
+            );
+        });
+        it("S3:選択", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "CASE A OF\n"+
+                "B:\n"+
+                "C:D:=E;   //こういうのも可能\n"+
+                "END_CASE;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "SELECT CASE A\n"+
+                "\tCASE B, C\n"+
+                "\t\tD = E\n"+
+                "END SELECT\n"
+            );
+        });
+        it("S3:選択", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "CASE A OF\n"+
+                "B,C:      //複数指定\n"+
+                "D..E:     //範囲指定\n"+
+                "F,G,H..I:J:=K;\n"+
+                "END_CASE;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "SELECT CASE A\n"+
+                "\tCASE B, C, D TO E, F, G, H TO I\n"+
+                "\t\tJ = K\n"+
+                "END SELECT\n"
+            );
+        });
+        it("S3:選択", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "CASE A OF B:C:=D;ELSE F();END_CASE;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "SELECT CASE A\n"+
+                "\tCASE B\n"+
+                "\t\tC = D\n"+
+                "\tCASE ELSE\n"+
+                "\t\tF()\n"+
+                "END SELECT\n"
+            );
         });
     });
 });
+
