@@ -126,8 +126,14 @@ STLangParserVisitor.prototype.visitCaseStatement = function(ctx) {
 };
 
 
-// Visit a parse tree produced by STLangParser#caseList.
-STLangParserVisitor.prototype.visitCaseList = function(ctx) {
+// Visit a parse tree produced by STLangParser#caseListWithStatement.
+STLangParserVisitor.prototype.visitCaseListWithStatement = function(ctx) {
+  return this.visitChildren(ctx);
+};
+
+
+// Visit a parse tree produced by STLangParser#caseListWithoutStatement.
+STLangParserVisitor.prototype.visitCaseListWithoutStatement = function(ctx) {
   return this.visitChildren(ctx);
 };
 

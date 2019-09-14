@@ -41,7 +41,7 @@ forStatement
 
 // REEPAT .. UNTIL .. END_REPEAT
 whileStatement
-    : WHILE cond=statements DO st=statements END_WHILE
+    : WHILE cond=expression DO st=statements END_WHILE
     ;
 
 // REEPAT .. UNTIL .. END_REPEAT
@@ -56,16 +56,17 @@ ifStatement
 
 // CASE .. OF .. ELSE .. END_CASE
 caseStatement
-    : CASE cond=expression OF (elm+=caseList)* (ELSE else_st=statements)? END_CASE
+    : CASE cond=expression OF (cas+=caseList)* (ELSE else_st=statements)? END_CASE
     ;
 
 caseList
-    : elm+=caseElement (COMMA elm+=caseElement)* COLON st=statements
+    : elm+=caseElement (COMMA elm+=caseElement)* COLON (st=statements)  #caseListWithStatement
+    | elm+=caseElement (COMMA elm+=caseElement)* COLON                  #caseListWithoutStatement
     ;
 
 caseElement
     : comp=constant                         #caseElementSingle
-    | from=constant RANGE ro=constant       #caseElementRange
+    | from=constant RANGE to=constant       #caseElementRange
     ;
 
 // CONTINUE

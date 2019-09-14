@@ -32,6 +32,7 @@ STLangTranspiler.prototype.execute = function(structuredText) {
 }
 
 
+var indent = 0;
 function toString(tree) {
     var text = "";
     if (Array.isArray(tree)) {
@@ -39,8 +40,22 @@ function toString(tree) {
             text += toString(elem);
         }
         return text;
-    } else if (typeof tree　=== 'string') {
-        return elem;
+    } else if (typeof tree === 'object') {
+        if (tree.line) {
+            for (i = 0; i < indent; i++) {
+                text += "\t";
+            }
+            text += toString(tree.line) + "\n";
+        } else if (tree.block) {
+            indent++;
+            text = toString(tree.block);
+            indent--;
+        } else {
+            throw new Error("Unknown tree element");
+        }
+        return text;
+    } else if (typeof tree === 'string') {
+        return tree;
     } else {
         return "";
     }

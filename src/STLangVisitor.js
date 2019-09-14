@@ -40,98 +40,111 @@ STLangVisitor.prototype.visitStatements = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#statementAssignment.
 STLangVisitor.prototype.visitStatementAssignment = function(ctx) {
-  var tree = this.visitChildren(ctx);
-  tree[0][1] = [" = "];
-  tree[0].push("\n");
-  return tree;
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementProcedure.
 STLangVisitor.prototype.visitStatementProcedure = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementReturn.
 STLangVisitor.prototype.visitStatementReturn = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementIf.
 STLangVisitor.prototype.visitStatementIf = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementCase.
 STLangVisitor.prototype.visitStatementCase = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementFor.
 STLangVisitor.prototype.visitStatementFor = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementWhile.
 STLangVisitor.prototype.visitStatementWhile = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementRepeat.
 STLangVisitor.prototype.visitStatementRepeat = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementContinue.
 STLangVisitor.prototype.visitStatementContinue = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#statementExit.
 STLangVisitor.prototype.visitStatementExit = function(ctx) {
-  return [this.visitChildren(ctx),"\n"];
+  return this.visitChildren(ctx);
 };
 
 
 // Visit a parse tree produced by STLangParser#assignmentStatement.
 STLangVisitor.prototype.visitAssignmentStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  return {"line":[this.visit(ctx.lhs), " = ", this.visit(ctx.rhs)]};
 };
 
 
 // Visit a parse tree produced by STLangParser#procedureStatement.
 STLangVisitor.prototype.visitProcedureStatement = function(ctx) {
   if (ctx.args) {
-    return [this.visit(ctx.func), "(", this.visit(ctx.args), ")"];
+    return {"line":[this.visit(ctx.func), "(", this.visit(ctx.args), ")"]};
   } else {
-    return [this.visit(ctx.func), "()"];
+    return {"line":[this.visit(ctx.func), "()"]};
   }
 };
 
 
 // Visit a parse tree produced by STLangParser#forStatement.
 STLangVisitor.prototype.visitForStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  var begin = {
+    "line":["FOR", this.visit(ctx.id), " = ", this.visit(ctx.start), " TO ", this.visit(ctx.end)]
+  }
+  if (ctx.step) {
+    begin.line.push(" STEP ");
+    begin.line.push(this.visit(ctx.step));
+  }
+  var block = {"block": tree.push(this.visit(ctx.st))};
+  var end =   {"line": "END FOR"};
+
+  return [begin, block, end];
 };
 
 
 // Visit a parse tree produced by STLangParser#whileStatement.
 STLangVisitor.prototype.visitWhileStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  var begin = {"line": ["WHILE ", this.visit(ctx.cond)]};
+  var block = {"block": this.visit(ctx.cond)};
+  var end   = {"line": "END WHILE"};
+  return [begin, block, end];
 };
 
 
 // Visit a parse tree produced by STLangParser#repeatStatement.
 STLangVisitor.prototype.visitRepeatStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  var begin = {"line": "DO"};
+  var block = {"block": this.visit(ctx.st)};
+  var end   = {"line": ["UNTIL ", this.visit(ctx.cond)]};
+  return [begin, block, end];
 };
 
 
@@ -143,13 +156,70 @@ STLangVisitor.prototype.visitIfStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#caseStatement.
 STLangVisitor.prototype.visitCaseStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  var begin = {"line": ["SELECT CASE ", this.visit(ctx.cond)]};
+  var block = {"block": []};
+  if (ctx.cas) {
+    var list = this.visit(ctx.cas);
+    mergedList = mergeCase(list);
+    block.block.push(mergedList);
+  }
+  if (ctx.else_st) {
+    block.block.push({"line": "CASE ELSE"});
+    block.block.push({"block": this.visit(ctx.else_st)});
+  }
+  var end   = {"line": "END SELECT"};
+  return [begin, block, end];
+};
+
+function mergeCase(list) {
+  dst = [];
+  for (i = 0; i < list.length; i++) {
+    if (list[i].length == 1) {
+      lines = [];
+      lines.push(list[i][0].line);
+      for (j = i + 1; (j < list.length) && list[j - 1].length == 1; j++) {
+        lines.push(", ");
+        lines.push(list[j][0].line.slice(1)); // "CASE"を消す
+      }
+      i = --j;
+      dst.push([
+        {"line":lines},
+        {"block":list[j][1].block}
+      ]);
+  } else {
+      dst.push(list[i]);
+    }
+  }
+  return dst;
+}
+
+// Visit a parse tree produced by STLangParser#caseListWithStatement.
+STLangVisitor.prototype.visitCaseListWithStatement = function(ctx) {
+  var list = {"line": [
+    "CASE ", this.visit(ctx.elm[0])]};
+  for (i = 1; i < ctx.elm.length; i++) {
+    list.line.push(", ");
+    list.line.push(this.visit(ctx.elm[i]));
+  }
+  var statement = this.visit(ctx.st);
+  if (statement) {
+    var block = {"block": statement};
+    return [list, block];
+  } else {
+    return [list];
+  }
 };
 
 
-// Visit a parse tree produced by STLangParser#caseList.
-STLangVisitor.prototype.visitCaseList = function(ctx) {
-  return this.visitChildren(ctx);
+// Visit a parse tree produced by STLangParser#caseListWithoutStatement.
+STLangVisitor.prototype.visitCaseListWithoutStatement = function(ctx) {
+  var list = {"line": [
+    "CASE ", this.visit(ctx.elm[0])]};
+  for (i = 1; i < ctx.elm.length; i++) {
+    list.line.push(", ");
+    list.line.push(this.visit(ctx.elm[i]));
+  }
+  return [list];
 };
 
 
@@ -161,7 +231,7 @@ STLangVisitor.prototype.visitCaseElementSingle = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#caseElementRange.
 STLangVisitor.prototype.visitCaseElementRange = function(ctx) {
-  return this.visitChildren(ctx);
+  return [this.visit(ctx.from), " TO ", this.visit(ctx.to)];
 };
 
 
@@ -173,7 +243,7 @@ STLangVisitor.prototype.visitContinueStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#exitStatement.
 STLangVisitor.prototype.visitExitStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  return {line:"BREAK"};
 };
 
 
