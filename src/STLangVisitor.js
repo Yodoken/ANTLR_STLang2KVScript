@@ -181,7 +181,7 @@ STLangVisitor.prototype.visitReturnStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#expressionLogicalOR.
 STLangVisitor.prototype.visitExpressionLogicalOR = function(ctx) {
-  return this.visitChildren(ctx);
+  return [this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs)];
 };
 
 
@@ -199,55 +199,55 @@ STLangVisitor.prototype.visitExpressionFunction = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#expressionUnary.
 STLangVisitor.prototype.visitExpressionUnary = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", ctx.op.text, " ", this.visit(ctx.expr), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionPower.
 STLangVisitor.prototype.visitExpressionPower = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ^ ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionParen.
 STLangVisitor.prototype.visitExpressionParen = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visitChildren(ctx), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionLogicalAND.
 STLangVisitor.prototype.visitExpressionLogicalAND = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " AND ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionLogicalXOR.
 STLangVisitor.prototype.visitExpressionLogicalXOR = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionAdditive.
 STLangVisitor.prototype.visitExpressionAdditive = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionRelative.
 STLangVisitor.prototype.visitExpressionRelative = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionMultipricative.
 STLangVisitor.prototype.visitExpressionMultipricative = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 
 // Visit a parse tree produced by STLangParser#expressionEquality.
 STLangVisitor.prototype.visitExpressionEquality = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.lhs), " ", ctx.op.text, " ", this.visit(ctx.rhs), ")"];
 };
 
 
@@ -292,7 +292,7 @@ STLangVisitor.prototype.visitConstantSignedNumber = function(ctx) {
     var type = this.visit(ctx.typ);
     return [type, "(", this.visit(ctx.sgn), this.visit(ctx.num),")"];
   } else {
-    return [this.visit(ctx.sgn), this.visit(ctx.num)];
+    return ["(", this.visit(ctx.sgn), this.visit(ctx.num), ")"];
   }
 };
 
@@ -311,7 +311,7 @@ STLangVisitor.prototype.visitConstantIdentifier = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#constantSignedIdentifier.
 STLangVisitor.prototype.visitConstantSignedIdentifier = function(ctx) {
-  return this.visitChildren(ctx);
+  return ["(", this.visit(ctx.sgn), this.visit(ctx.id), ")"];
 };
 
 

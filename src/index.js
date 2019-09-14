@@ -1,27 +1,17 @@
 var STLangTranspiler = require('./STLangTranspiler').STLangTranspiler;
 
 var text = 
-"A := 10;\n"+
-"A := 1.2;\n"+
-"A := 'abc';\n"+
-"A := \"あ\";\n"+
-"A := 2#0001_1100;\n"+
-"A := 8#77;\n"+
-"A := 16#ff;\n"+
-"A := -10;\n"+
-"A := -1.2;\n"+
-"A := -2#0001_1100;\n"+
-"A := -8#77;\n"+
-"A := -16#ff;\n"+
-"A := INT#-10;\n"+
-"A := DINT#-10;\n"+
-"A := UINT#10;\n"+
-"A := UDINT#10;\n"+
-"A := REAL#1.2;\n"+
-"A := LREAL#1.2e+10;\n"+
-"A := -UINT#2#0001_1100;\n"+
-"A := -UINT#8#77;\n"+
-"A := -UINT#16#ff;\n";
+"A := B + C --D * E / F MOD -G ** H;  //単項マイナスに注意\n"+
+"//E6:論理演算\n"+
+"A := NOT B AND C OR D XOR E & F;\n"+
+"\n"+
+"//E7:比較演算\n"+
+"A := B < C > D <= E >= F;\n"+
+"\n"+
+"//E8:等価比較演算\n"+
+"A := B = C <> D;\n"+
+"//比較・等価比較演算ミックス\n"+
+"A := B = E >= F;\n";
 
 var transpiler = new STLangTranspiler();
 var result = transpiler.execute(text);
