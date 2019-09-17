@@ -51,7 +51,7 @@ repeatStatement
 
 // IF .. THEN .. ELSIF .. THEN .. ELSE .. END_IF
 ifStatement
-    : IF cond=expression THEN st=statements (ELSIF elif_cond+=expression THEN elif_st+=statements)* (ELSE else_st=statements)? END_IF
+    : IF cond=expression THEN st=statements (ELSIF elsif_cond+=expression THEN elsif_st+=statements)* (ELSE else_st=statements)? END_IF
     ;
 
 // CASE .. OF .. ELSE .. END_CASE

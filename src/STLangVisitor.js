@@ -150,7 +150,24 @@ STLangVisitor.prototype.visitRepeatStatement = function(ctx) {
 
 // Visit a parse tree produced by STLangParser#ifStatement.
 STLangVisitor.prototype.visitIfStatement = function(ctx) {
-  return this.visitChildren(ctx);
+  //IF節
+  var begin = {"line": ["IF ", this.visit(ctx.cond), " THEN"]};
+  var blocks = [{"block": this.visit(ctx.st)}];
+
+  //ELSIF節
+  for (i = 0; i < ctx.elsif_cond.length; i++) {
+    blocks.push({"line": ["ELSE IF ", this.visit(ctx.elsif_cond[i]), " THEN"]});
+    blocks.push({"block": this.visit(ctx.elsif_st[i])});
+  }
+  
+  //ELSE節
+  if (ctx.else_st) {
+    blocks.push({"line": "ELSE"});
+    blocks.push({"block": this.visit(ctx.else_st)});
+  }
+  
+  var end   = {"line": "END IF"};
+  return [begin, blocks, end];
 };
 
 
@@ -171,6 +188,7 @@ STLangVisitor.prototype.visitCaseStatement = function(ctx) {
   return [begin, block, end];
 };
 
+// CASE節のマージ
 function mergeCase(list) {
   dst = [];
   for (i = 0; i < list.length; i++) {

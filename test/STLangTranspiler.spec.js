@@ -238,5 +238,49 @@ describe('ラダー実行テスト', function() {
             );
         });
     });
+    describe('If statement', function() {
+        it("条件分岐", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "IF A <= B THEN\n"+
+                "  C := D;\n"+
+                "END_IF;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "IF (A <= B) THEN\n"+
+                "\tC = D\n"+
+                "END IF\n"
+            );
+        });
+        it("条件分岐", function() {
+            var transpiler = new STLangTranspiler();
+            var text = 
+                "IF A <= B THEN\n"+
+                "  C := D;\n"+
+                "  IF AA <= AB THEN\n"+
+                "    AC := AD;\n"+
+                "  END_IF;\n"+
+                "ELSIF E <= F THEN\n"+
+                "  G := H;\n"+
+                "ELSE\n"+
+                "  I := J;\n"+
+                "END_IF;\n";
+            var result = transpiler.execute(text);
+            expect(result.valid).toEqual(true);
+            expect(result.text).toEqual(
+                "IF (A <= B) THEN\n"+
+                "\tC = D\n"+
+                "\tIF (AA <= AB) THEN\n"+
+                "\t\tAC = AD\n"+
+                "\tEND IF\n"+
+                "ELSE IF (E <= F) THEN\n"+
+                "\tG = H\n"+
+                "ELSE\n"+
+                "\tI = J\n"+
+                "END IF\n"
+            );
+        });
+    });
 });
 

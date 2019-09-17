@@ -1,6 +1,19 @@
 var STLangTranspiler = require('./STLangTranspiler').STLangTranspiler;
 
 var text = 
+"IF A <= B THEN\n"+
+"  C := D;\n"+
+"END_IF;\n"+
+"IF A <= B THEN\n"+
+"  C := D;\n"+
+"  IF AA <= AB THEN\n"+
+"    AC := AD;\n"+
+"  END_IF;\n"+
+"ELSIF E <= F THEN\n"+
+"  G := H;\n"+
+"ELSE\n"+
+"  I := J;\n"+
+"END_IF;\n"+
 "A:=B;\n"+
 "REPEAT\n"+
 "  REPEAT\n"+

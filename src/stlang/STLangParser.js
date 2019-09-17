@@ -1355,9 +1355,9 @@ function IfStatementContext(parser, parent, invokingState) {
     this.cond = null; // ExpressionContext
     this.st = null; // StatementsContext
     this._expression = null; // ExpressionContext
-    this.elif_cond = []; // of ExpressionContexts
+    this.elsif_cond = []; // of ExpressionContexts
     this._statements = null; // StatementsContext
-    this.elif_st = []; // of StatementsContexts
+    this.elsif_st = []; // of StatementsContexts
     this.else_st = null; // StatementsContext
     return this;
 }
@@ -1459,12 +1459,12 @@ STLangParser.prototype.ifStatement = function() {
             this.match(STLangParser.ELSIF);
             this.state = 124;
             localctx._expression = this.expression(0);
-            localctx.elif_cond.push(localctx._expression);
+            localctx.elsif_cond.push(localctx._expression);
             this.state = 125;
             this.match(STLangParser.THEN);
             this.state = 126;
             localctx._statements = this.statements();
-            localctx.elif_st.push(localctx._statements);
+            localctx.elsif_st.push(localctx._statements);
             this.state = 132;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
